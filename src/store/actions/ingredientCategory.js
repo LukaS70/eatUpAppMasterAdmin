@@ -21,30 +21,21 @@ export const fetchIngredientCategoriesStart = () => {
     };
 };
 
-export const fetchIngredientCategories = () => {
+export const fetchIngredientCategories = (token) => {
     return dispatch => {
         dispatch(fetchIngredientCategoriesStart());
-        /* const queryParams = .... */
-        axios.get('/ingredientCategories.json')
+        axios.get('/ingredient-categories', {headers: { 'Authorization': 'Bearer ' + token}})
             .then(res => {
-                const fetchedIngredientCategories = [];
-                for (let key in res.data) {
-                    fetchedIngredientCategories.push({
-                        ...res.data[key],
-                        id: key
-                    });
-                }
-                dispatch(fetchIngredientCategoriesSuccess(fetchedIngredientCategories));
+                dispatch(fetchIngredientCategoriesSuccess(res.data.ingredientCategories));
             }).catch(err => {
                 dispatch(fetchIngredientCategoriesFail(err));
             });
     };
 };
 
-export const addIngredientCategoriesSuccess = (id, ingredientCategoryData) => {
+export const addIngredientCategoriesSuccess = (ingredientCategoryData) => {
     return {
         type: actionTypes.ADD_INGREDIENT_CATEGORIES_SUCCESS,
-        ingredientCategory: id,
         ingredientCategoryData: ingredientCategoryData
     };
 };
@@ -65,20 +56,18 @@ export const addIngredientCategoriesStart = () => {
 export const addIngredientCategories = (ingredientCategoryData, token) => {
     return dispatch => {
         dispatch(addIngredientCategoriesStart());
-        axios.post('/recipes.json?auth=' + token, ingredientCategoryData)
+        axios.post('/ingredient-categories', ingredientCategoryData, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
-                /* console.log(response.data); */
-                dispatch(addIngredientCategoriesSuccess(response.data.id, ingredientCategoryData));
+                dispatch(addIngredientCategoriesSuccess(response.data.ingredientCategory));
             }).catch(error => {
                 dispatch(addIngredientCategoriesFail(error));
             });
     };
 };
 
-export const editIngredientCategoriesSuccess = (id, ingredientCategoryData) => {
+export const editIngredientCategoriesSuccess = (ingredientCategoryData) => {
     return {
         type: actionTypes.EDIT_INGREDIENT_CATEGORIES_SUCCESS,
-        ingredientCategory: id,
         ingredientCategoryData: ingredientCategoryData
     };
 };
@@ -99,10 +88,10 @@ export const editIngredientCategoriesStart = () => {
 export const editIngredientCategories = (ingredientCategoryId, ingredientCategoryData, token) => {
     return dispatch => {
         dispatch(editIngredientCategoriesStart());
-        axios.put('/recipes/' + ingredientCategoryId + '.json?auth=' + token, ingredientCategoryData)
+        axios.put('/ingredient-categories/' + ingredientCategoryId, ingredientCategoryData, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
                 console.log(response);
-                dispatch(editIngredientCategoriesSuccess(ingredientCategoryId, response.data));
+                dispatch(editIngredientCategoriesSuccess(response.data.ingredientCategory));
             }).catch(error => {
                 dispatch(editIngredientCategoriesFail(error));
             });
@@ -132,7 +121,7 @@ export const deleteIngredientCategoriesStart = () => {
 export const deleteIngredientCategories = (ingredientCategoryId, token) => {
     return dispatch => {
         dispatch(deleteIngredientCategoriesStart());
-        axios.delete('/recipes/' + ingredientCategoryId + '.json?auth=' + token)
+        axios.delete('/ingredient-categories/' + ingredientCategoryId, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
                 console.log(response);
                 dispatch(deleteIngredientCategoriesSuccess(ingredientCategoryId));

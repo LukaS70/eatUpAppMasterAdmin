@@ -21,30 +21,21 @@ export const fetchMeasurementUnitsStart = () => {
     };
 };
 
-export const fetchMeasurementUnits = () => {
+export const fetchMeasurementUnits = (token) => {
     return dispatch => {
         dispatch(fetchMeasurementUnitsStart());
-        /* const queryParams = .... */
-        axios.get('/measurementUnits.json')
+        axios.get('/measurement-units', {headers: { 'Authorization': 'Bearer ' + token}})
             .then(res => {
-                const fetchedMeasurementUnits = [];
-                for (let key in res.data) {
-                    fetchedMeasurementUnits.push({
-                        ...res.data[key],
-                        id: key
-                    });
-                }
-                dispatch(fetchMeasurementUnitsSuccess(fetchedMeasurementUnits));
+                dispatch(fetchMeasurementUnitsSuccess(res.data.measurementUnits));
             }).catch(err => {
                 dispatch(fetchMeasurementUnitsFail(err));
             });
     };
 };
 
-export const addMeasurementUnitsSuccess = (id, measurementUnitData) => {
+export const addMeasurementUnitsSuccess = (measurementUnitData) => {
     return {
         type: actionTypes.ADD_MEASUREMENT_UNITS_SUCCESS,
-        measurementUnit: id,
         measurementUnitData: measurementUnitData
     };
 };
@@ -65,20 +56,18 @@ export const addMeasurementUnitsStart = () => {
 export const addMeasurementUnits = (measurementUnitData, token) => {
     return dispatch => {
         dispatch(addMeasurementUnitsStart());
-        axios.post('/recipes.json?auth=' + token, measurementUnitData)
+        axios.post('/measurement-units', measurementUnitData, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
-                /* console.log(response.data); */
-                dispatch(addMeasurementUnitsSuccess(response.data.id, measurementUnitData));
+                dispatch(addMeasurementUnitsSuccess(response.data.measurementUnit));
             }).catch(error => {
                 dispatch(addMeasurementUnitsFail(error));
             });
     };
 };
 
-export const editMeasurementUnitsSuccess = (id, measurementUnitData) => {
+export const editMeasurementUnitsSuccess = (measurementUnitData) => {
     return {
         type: actionTypes.EDIT_MEASUREMENT_UNITS_SUCCESS,
-        measurementUnit: id,
         measurementUnitData: measurementUnitData
     };
 };
@@ -99,10 +88,10 @@ export const editMeasurementUnitsStart = () => {
 export const editMeasurementUnits = (measurementUnitId, measurementUnitData, token) => {
     return dispatch => {
         dispatch(editMeasurementUnitsStart());
-        axios.put('/recipes/' + measurementUnitId + '.json?auth=' + token, measurementUnitData)
+        axios.put('/measurement-units/' + measurementUnitId, measurementUnitData, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
                 console.log(response);
-                dispatch(editMeasurementUnitsSuccess(measurementUnitId, response.data));
+                dispatch(editMeasurementUnitsSuccess(response.data.measurementUnit));
             }).catch(error => {
                 dispatch(editMeasurementUnitsFail(error));
             });
@@ -132,7 +121,7 @@ export const deleteMeasurementUnitsStart = () => {
 export const deleteMeasurementUnits = (measurementUnitId, token) => {
     return dispatch => {
         dispatch(deleteMeasurementUnitsStart());
-        axios.delete('/recipes/' + measurementUnitId + '.json?auth=' + token)
+        axios.delete('/measurement-units/' + measurementUnitId, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
                 console.log(response);
                 dispatch(deleteMeasurementUnitsSuccess(measurementUnitId));

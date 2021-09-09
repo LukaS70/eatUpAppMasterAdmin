@@ -48,7 +48,7 @@ export const auth = (email, password) => {
             email: email,
             password: password
         }
-        axios.post('http://localhost:5000/api/users/login', authData)
+        axios.post('http://localhost:5000/api/users/adminLogin', authData)
             .then(response => {
                 console.log(response);
                 const expirationDate = new Date(new Date().getTime() + 3600000);
@@ -59,7 +59,7 @@ export const auth = (email, password) => {
                 dispatch(authSuccess(response.data.token, response.data.userId, response.data.email));
                 dispatch(checkAuthTimeout(3600000));
             }).catch(err => {
-                dispatch(authFail(err.response.data.error));
+                dispatch(authFail(err.message));
             })
     }
 }

@@ -21,30 +21,21 @@ export const fetchRecipeCategoriesStart = () => {
     };
 };
 
-export const fetchRecipeCategories = () => {
+export const fetchRecipeCategories = (token) => {
     return dispatch => {
         dispatch(fetchRecipeCategoriesStart());
-        /* const queryParams = .... */
-        axios.get('/recipeCategories.json')
+        axios.get('/recipe-categories', {headers: { 'Authorization': 'Bearer ' + token}})
             .then(res => {
-                const fetchedRecipeCategories = [];
-                for (let key in res.data) {
-                    fetchedRecipeCategories.push({
-                        ...res.data[key],
-                        id: key
-                    });
-                }
-                dispatch(fetchRecipeCategoriesSuccess(fetchedRecipeCategories));
+                dispatch(fetchRecipeCategoriesSuccess(res.data.recipeCategories));
             }).catch(err => {
                 dispatch(fetchRecipeCategoriesFail(err));
             });
     };
 };
 
-export const addRecipeCategoriesSuccess = (id, recipeCategoryData) => {
+export const addRecipeCategoriesSuccess = (recipeCategoryData) => {
     return {
         type: actionTypes.ADD_RECIPE_CATEGORIES_SUCCESS,
-        recipeCategory: id,
         recipeCategoryData: recipeCategoryData
     };
 };
@@ -65,20 +56,18 @@ export const addRecipeCategoriesStart = () => {
 export const addRecipeCategories = (recipeCategoryData, token) => {
     return dispatch => {
         dispatch(addRecipeCategoriesStart());
-        axios.post('/recipes.json?auth=' + token, recipeCategoryData)
+        axios.post('/recipe-categories', recipeCategoryData, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
-                /* console.log(response.data); */
-                dispatch(addRecipeCategoriesSuccess(response.data.id, recipeCategoryData));
+                dispatch(addRecipeCategoriesSuccess(response.data.recipeCategory));
             }).catch(error => {
                 dispatch(addRecipeCategoriesFail(error));
             });
     };
 };
 
-export const editRecipeCategoriesSuccess = (id, recipeCategoryData) => {
+export const editRecipeCategoriesSuccess = (recipeCategoryData) => {
     return {
         type: actionTypes.EDIT_RECIPE_CATEGORIES_SUCCESS,
-        recipeCategory: id,
         recipeCategoryData: recipeCategoryData
     };
 };
@@ -99,10 +88,10 @@ export const editRecipeCategoriesStart = () => {
 export const editRecipeCategories = (recipeCategoryId, recipeCategoryData, token) => {
     return dispatch => {
         dispatch(editRecipeCategoriesStart());
-        axios.put('/recipes/' + recipeCategoryId + '.json?auth=' + token, recipeCategoryData)
+        axios.put('/recipe-categories/' + recipeCategoryId, recipeCategoryData, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
                 console.log(response);
-                dispatch(editRecipeCategoriesSuccess(recipeCategoryId, response.data));
+                dispatch(editRecipeCategoriesSuccess(response.data.recipeCategory));
             }).catch(error => {
                 dispatch(editRecipeCategoriesFail(error));
             });
@@ -132,7 +121,7 @@ export const deleteRecipeCategoriesStart = () => {
 export const deleteRecipeCategories = (recipeCategoryId, token) => {
     return dispatch => {
         dispatch(deleteRecipeCategoriesStart());
-        axios.delete('/recipes/' + recipeCategoryId + '.json?auth=' + token)
+        axios.delete('/recipe-categories/' + recipeCategoryId, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
                 console.log(response);
                 dispatch(deleteRecipeCategoriesSuccess(recipeCategoryId));

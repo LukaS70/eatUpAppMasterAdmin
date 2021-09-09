@@ -2,14 +2,18 @@ export {
     fetchRecipes,
     addRecipe,
     editRecipe,
-    deleteRecipe
+    deleteRecipe,
+    /* makeRecipePublic,
+    unmakeRecipePublic */
 } from './recipe';
 
 export {
     fetchIngredients,
     addIngredient,
     editIngredient,
-    deleteIngredient
+    deleteIngredient,
+   /*  makeIngredientPublic,
+    unmakeIngredientPublic */
 } from './ingredient';
 
 export {
@@ -36,6 +40,14 @@ export {
     editRecipeCategories,
     deleteRecipeCategories
 } from './recipeCategory';
+
+export {
+    fetchDailyNutrition
+} from './dailyNutrition';
+
+export {
+    fetchUsers
+} from './user';
 
 export {
     auth,

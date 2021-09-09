@@ -21,23 +21,12 @@ export const fetchShoppingListsStart = () => {
     };
 };
 
-export const fetchShoppingLists = (userId, token) => {
+export const fetchShoppingLists = (token) => {
     return dispatch => {
         dispatch(fetchShoppingListsStart());
-        const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
-        axios.get('/shoppingList.json' + queryParams)
+        axios.get('/shopping-list', {headers: { 'Authorization': 'Bearer ' + token}})
             .then(res => {
-                const fetchedShoppingListsData = [];
-                for (let key in res.data) {
-                    fetchedShoppingListsData.push({
-                        ...res.data[key],
-                        id: key
-                    });
-                }
-
-                const shoppingList = fetchedShoppingListsData[0];
-
-                dispatch(fetchShoppingListsSuccess(shoppingList));
+                dispatch(fetchShoppingListsSuccess(res.data.shoppingLists));
             }).catch(err => {
                 dispatch(fetchShoppingListsFail(err));
             });

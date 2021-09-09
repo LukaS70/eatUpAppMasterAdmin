@@ -2,7 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../shared/utility';
 
 const initialState = {
-    shoppingList: null,
+    shoppingLists: null,
     loading: false,
 };
 
@@ -12,7 +12,7 @@ const fetchShoppingListsStart = (state, action) => {
 
 const fetchShoppingListsSuccess = (state, action) => {
     return updateObject(state, {
-        shoppingList: action.shoppingList,
+        shoppingLists: action.shoppingLists,
         loading: false,
     });
 };

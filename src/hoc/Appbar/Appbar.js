@@ -293,9 +293,9 @@ export default function Appbar(props) {
     if (auth) {
         items = (
             <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" /* style={{height: 60}} */>
-                <Tab label="Data Management" button component={NavLink} {...a11yProps(0)} to="/datamanagement"  /* style={{width: 210, fontSize: 16}} *//>
-                <Tab label="Pending Reviews" button component={NavLink} {...a11yProps(1)} to="/pendingreviews" /* style={{width: 210, fontSize: 16}} *//>
-                <Tab label="Users & Analytics" button component={NavLink} {...a11yProps(2)} to="/analytics" /* style={{width: 210, fontSize: 16}} *//>
+                <Tab label="Data Management"  component={NavLink} {...a11yProps(0)} to="/datamanagement"  /* style={{width: 210, fontSize: 16}} *//>
+                <Tab label="Pending Reviews"  component={NavLink} {...a11yProps(1)} to="/pendingreviews" /* style={{width: 210, fontSize: 16}} *//>
+                <Tab label="Users & Analytics" component={NavLink} {...a11yProps(2)} to="/analytics" /* style={{width: 210, fontSize: 16}} *//>
                 <Button component={NavLink} to="/logout" onClick={resetValue}
                     style={{ width: '150px', marginLeft: 'auto' }}
                     variant="contained"

@@ -21,19 +21,12 @@ export const fetchRecipesStart = () => {
     };
 };
 
-export const fetchRecipes = () => {
+export const fetchRecipes = (token) => {
     return dispatch => {
         dispatch(fetchRecipesStart());
-        /* const queryParams = .... */
-        axios.get('/recipes.json')
+        axios.get('/recipes', {headers: { 'Authorization': 'Bearer ' + token}})
             .then(res => {
-                const fetchedRecipes = [];
-                for (let key in res.data) {
-                    fetchedRecipes.push({
-                        ...res.data[key],
-                        id: key
-                    });
-                }
+                const fetchedRecipes = res.data.recipes;
                 dispatch(fetchRecipesSuccess(fetchedRecipes));
             }).catch(err => {
                 dispatch(fetchRecipesFail(err));
@@ -41,10 +34,9 @@ export const fetchRecipes = () => {
     };
 };
 
-export const addRecipeSuccess = (id, recipeData) => {
+export const addRecipeSuccess = (recipeData) => {
     return {
         type: actionTypes.ADD_RECIPE_SUCCESS,
-        recipeId: id,
         recipeData: recipeData
     };
 };
@@ -65,20 +57,19 @@ export const addRecipeStart = () => {
 export const addRecipe = (recipeData, token) => {
     return dispatch => {
         dispatch(addRecipeStart());
-        axios.post('/recipes.json?auth=' + token, recipeData)
+        axios.post('/recipes', recipeData, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
-                /* console.log(response.data); */
-                dispatch(addRecipeSuccess(response.data.name, recipeData));
+                console.log(response);
+                dispatch(addRecipeSuccess(response.data.recipe));
             }).catch(error => {
                 dispatch(addRecipeFail(error));
             });
     };
 };
 
-export const editRecipeSuccess = (id, recipeData) => {
+export const editRecipeSuccess = (recipeData) => {
     return {
         type: actionTypes.EDIT_RECIPE_SUCCESS,
-        recipeId: id,
         recipeData: recipeData
     };
 };
@@ -99,10 +90,10 @@ export const editRecipeStart = () => {
 export const editRecipe = (recipeId, recipeData, token) => {
     return dispatch => {
         dispatch(editRecipeStart());
-        axios.put('/recipes/' + recipeId + '.json?auth=' + token, recipeData)
+        axios.patch('/recipes/' + recipeId, recipeData, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
                 console.log(response);
-                dispatch(editRecipeSuccess(recipeId, response.data));
+                dispatch(editRecipeSuccess(response.data.recipe));
             }).catch(error => {
                 dispatch(editRecipeFail(error));
             });
@@ -132,12 +123,78 @@ export const deleteRecipeStart = () => {
 export const deleteRecipe = (recipeId, token) => {
     return dispatch => {
         dispatch(deleteRecipeStart());
-        axios.delete('/recipes/' + recipeId + '.json?auth=' + token)
+        axios.delete('/recipes/' + recipeId, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
                 console.log(response);
                 dispatch(deleteRecipeSuccess(recipeId));
             }).catch(error => {
                 dispatch(deleteRecipeFail(error));
+            });
+    };
+};
+
+export const makeRecipePublicSuccess = (recipeData) => {
+    return {
+        type: actionTypes.MAKE_RECIPE_PUBLIC_SUCCESS,
+        recipeData: recipeData
+    };
+};
+
+export const makeRecipePublicFail = (error) => {
+    return {
+        type: actionTypes.MAKE_RECIPE_PUBLIC_FAIL,
+        error: error
+    };
+};
+
+export const makeRecipePublicStart = () => {
+    return {
+        type: actionTypes.MAKE_RECIPE_PUBLIC_START
+    };
+};
+
+export const makeRecipePublic = (recId, token) => {
+    return dispatch => {
+        dispatch(makeRecipePublicSuccess());
+        axios.patch('/recipes/make-public' + recId, {}, {headers: { 'Authorization': 'Bearer ' + token}})
+            .then(response => {
+                console.log(response);
+                dispatch(editRecipeSuccess(response.data.recipe));
+            }).catch(error => {
+                dispatch(makeRecipePublicFail(error));
+            });
+    };
+};
+
+export const unmakeRecipePublicSuccess = (recipeData) => {
+    return {
+        type: actionTypes.UNMAKE_RECIPE_PUBLIC_SUCCESS,
+        recipeData: recipeData
+    };
+};
+
+export const unmakeRecipePublicFail = (error) => {
+    return {
+        type: actionTypes.UNMAKE_RECIPE_PUBLIC_FAIL,
+        error: error
+    };
+};
+
+export const unmakeRecipePublicStart = () => {
+    return {
+        type: actionTypes.UNMAKE_RECIPE_PUBLIC_START
+    };
+};
+
+export const unmakeRecipePublic = (recId, token) => {
+    return dispatch => {
+        dispatch(unmakeRecipePublicStart());
+        axios.patch('/recipes/unmake-public' + recId, {}, {headers: { 'Authorization': 'Bearer ' + token}})
+            .then(response => {
+                console.log(response);
+                dispatch(unmakeRecipePublicSuccess(response.data.recipe));
+            }).catch(error => {
+                dispatch(unmakeRecipePublicFail(error));
             });
     };
 };

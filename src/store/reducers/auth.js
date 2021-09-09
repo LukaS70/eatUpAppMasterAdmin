@@ -7,7 +7,7 @@ const initialState = {
     error: null,
     loading: false,
     authRedirectPath: '/',
-    userData: null
+    email: null
 };
 
 const authStart = (state, action) => {
@@ -15,10 +15,11 @@ const authStart = (state, action) => {
 }
 
 const authSuccess = (state, action) => {
+    console.log(action);
     return updateObject(state, {
         token: action.idToken,
         userId: action.userId,
-        userData: action.userData,
+        email: action.email,
         error: null,
         loading: false
     });
@@ -29,7 +30,7 @@ const authFail = (state, action) => {
 }
 
 const authLogout = (state, action) => {
-    return updateObject(state, { token: null, userId: null, userData: null });
+    return updateObject(state, { token: null, userId: null, email: null });
 }
 
 const setAuthRedirectPath = (state, action) => {

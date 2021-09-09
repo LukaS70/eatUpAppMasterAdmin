@@ -12,18 +12,22 @@ import shoppingListReducer from './store/reducers/shoppingList';
 import ingredientCategoriesReducer from './store/reducers/ingredientCategory';
 import recipeCategoriesReducer from './store/reducers/recipeCategory';
 import measurementUnitsReducer from './store/reducers/measurementUnit';
+import usersReducer from './store/reducers/user';
+import dailyNutritionReducer from './store/reducers/dailyNutrition';
 import authReducer from './store/reducers/auth';
 import reportWebVitals from './reportWebVitals';
 
 const composeEnhancers = /* process.env.NODE_ENV === 'development' ? */ window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ /* : null */ || compose;
 
 const rootReducer = combineReducers({
-  recipe: recipeReducer,
-  ingredient: ingredientReducer,
-  shoppingList: shoppingListReducer,
+  recipes: recipeReducer,
+  ingredients: ingredientReducer,
+  shoppingLists: shoppingListReducer,
   ingredientCategories: ingredientCategoriesReducer,
   recipeCategories: recipeCategoriesReducer,
   measurementUnits: measurementUnitsReducer,
+  dailyNutrition: dailyNutritionReducer,
+  users: usersReducer,
   auth: authReducer
 });
 

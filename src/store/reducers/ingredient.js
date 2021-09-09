@@ -26,10 +26,9 @@ const addIngredientStart = (state, action) => {
 };
 
 const addIngredientSuccess = (state, action) => {
-    const newIngredient = updateObject(action.ingredientData, { id: action.ingredientId });
     return updateObject(state, {
         loading: false,
-        ingredients: state.ingredients.concat(newIngredient),
+        ingredients: state.ingredients.concat(action.ingredientData),
     });
 };
 
@@ -42,7 +41,7 @@ const editIngredientStart = (state, action) => {
 };
 
 const editIngredientSuccess = (state, action) => {
-    const editedIngredient = updateObject(action.ingredientData, { id: action.ingredientId });
+    const editedIngredient = action.ingredientData;
     const newIngredients = state.ingredients;
     const index = newIngredients.findIndex(ing => ing.id === editedIngredient.id);
     newIngredients[index] = editedIngredient;
@@ -80,6 +79,48 @@ const deleteIngredientFail = (state, action) => {
     return updateObject(state, { loading: false });
 };
 
+const makeIngredientPublicStart = (state, action) => {
+    return updateObject(state, { loading: true });
+};
+
+const makeIngredientPublicSuccess = (state, action) => {
+    const editedIngredient = action.ingredientData;
+    const newIngredients = state.ingredients;
+    const index = newIngredients.findIndex(ing => ing.id === editedIngredient.id);
+    newIngredients[index] = editedIngredient;
+    console.log(newIngredients);
+
+    return updateObject(state, {
+        loading: false,
+        ingredients: newIngredients,
+    });
+};
+
+const makeIngredientPublicFail = (state, action) => {
+    return updateObject(state, { loading: false });
+};
+
+const unmakeIngredientPublicStart = (state, action) => {
+    return updateObject(state, { loading: true });
+};
+
+const unmakeIngredientPublicSuccess = (state, action) => {
+    const editedIngredient = action.ingredientData;
+    const newIngredients = state.ingredients;
+    const index = newIngredients.findIndex(ing => ing.id === editedIngredient.id);
+    newIngredients[index] = editedIngredient;
+    console.log(newIngredients);
+
+    return updateObject(state, {
+        loading: false,
+        ingredients: newIngredients,
+    });
+};
+
+const unmakeIngredientPublicFail = (state, action) => {
+    return updateObject(state, { loading: false });
+};
+
 //--------------------------------------------------------------------------
 
 const reducer = (state = initialState, action) => {
@@ -96,6 +137,12 @@ const reducer = (state = initialState, action) => {
         case actionTypes.DELETE_INGREDIENT_START: return deleteIngredientStart(state, action);
         case actionTypes.DELETE_INGREDIENT_SUCCESS: return deleteIngredientSuccess(state, action);
         case actionTypes.DELETE_INGREDIENT_FAIL: return deleteIngredientFail(state, action);
+        case actionTypes.MAKE_INGREDIENT_PUBLIC_START: return makeIngredientPublicStart(state, action);
+        case actionTypes.MAKE_INGREDIENT_PUBLIC_SUCCESS: return makeIngredientPublicSuccess(state, action);
+        case actionTypes.MAKE_INGREDIENT_PUBLIC_FAIL: return makeIngredientPublicFail(state, action);
+        case actionTypes.UNMAKE_INGREDIENT_PUBLIC_START: return unmakeIngredientPublicStart(state, action);
+        case actionTypes.UNMAKE_INGREDIENT_PUBLIC_SUCCESS: return unmakeIngredientPublicSuccess(state, action);
+        case actionTypes.UNMAKE_INGREDIENT_PUBLIC_FAIL: return unmakeIngredientPublicFail(state, action);
         default: return state;
     }
 }

@@ -119,7 +119,13 @@ class Auth extends Component {
 
         if (this.props.error) {
             errorMessage = (
-                <p>{this.props.error.message}</p>       // .message je od firebase-a poruka
+                <Grid container
+                        direction="row"
+                        justify="center"
+                        alignItems="center"
+                        spacing={5}>
+                    <p>{this.props.error}</p>  
+                </Grid>     
             );
         }
 
@@ -132,7 +138,6 @@ class Auth extends Component {
             <div>
                 <Spinner show={this.props.loading} />
                 {authRedirect}
-                {errorMessage}
                 <br />
                 <br />
                 <Grid container
@@ -147,10 +152,10 @@ class Auth extends Component {
                         spacing={5}>
                         {logo}
                     </Grid>
-
                     {loginForm}
                 </Grid>
                 <br />
+                {errorMessage}
                 <br />
                 <Grid container
                     direction="column"

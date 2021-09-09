@@ -21,19 +21,12 @@ export const fetchIngredientsStart = () => {
     };
 };
 
-export const fetchIngredients = () => {
+export const fetchIngredients = (token) => {
     return dispatch => {
         dispatch(fetchIngredientsStart());
-        /* const queryParams = .... */
-        axios.get('/ingredients.json')
+        axios.get('/ingredients', {headers: { 'Authorization': 'Bearer ' + token}})
             .then(res => {
-                const fetchedIngredients = [];
-                for (let key in res.data) {
-                    fetchedIngredients.push({
-                        ...res.data[key],
-                        id: key
-                    });
-                }
+                const fetchedIngredients = res.data.ingredients;
                 dispatch(fetchIngredientsSuccess(fetchedIngredients));
             }).catch(err => {
                 dispatch(fetchIngredientsFail(err));
@@ -41,10 +34,9 @@ export const fetchIngredients = () => {
     };
 };
 
-export const addIngredientSuccess = (id, ingredientData) => {
+export const addIngredientSuccess = (ingredientData) => {
     return {
         type: actionTypes.ADD_INGREDIENT_SUCCESS,
-        ingredientId: id,
         ingredientData: ingredientData
     };
 };
@@ -65,20 +57,19 @@ export const addIngredientStart = () => {
 export const addIngredient = (ingredientData, token) => {
     return dispatch => {
         dispatch(addIngredientStart());
-        axios.post('/ingredients.json?auth=' + token, ingredientData)
+        axios.post('/ingredients', ingredientData, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
-                /* console.log(response.data); */
-                dispatch(addIngredientSuccess(response.data.name, ingredientData));
+                console.log(response);
+                dispatch(addIngredientSuccess(response.data.ingredient));
             }).catch(error => {
                 dispatch(addIngredientFail(error));
             });
     };
 };
 
-export const editIngredientSuccess = (id, ingredientData) => {
+export const editIngredientSuccess = (ingredientData) => {
     return {
         type: actionTypes.EDIT_INGREDIENT_SUCCESS,
-        ingredientId: id,
         ingredientData: ingredientData
     };
 };
@@ -99,10 +90,10 @@ export const editIngredientStart = () => {
 export const editIngredient = (ingId, ingredientData, token) => {
     return dispatch => {
         dispatch(editIngredientStart());
-        axios.put('/ingredients/' + ingId + '.json?auth=' + token, ingredientData)
+        axios.patch('/ingredients/' + ingId, ingredientData, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
                 console.log(response);
-                dispatch(editIngredientSuccess(ingId, response.data));
+                dispatch(editIngredientSuccess(response.data.ingredient));
             }).catch(error => {
                 dispatch(editIngredientFail(error));
             });
@@ -132,12 +123,78 @@ export const deleteIngredientStart = () => {
 export const deleteIngredient = (ingId, token) => {
     return dispatch => {
         dispatch(deleteIngredientStart());
-        axios.delete('/ingredients/' + ingId + '.json?auth=' + token)
+        axios.delete('/ingredients/' + ingId, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
                 console.log(response);
                 dispatch(deleteIngredientSuccess(ingId));
             }).catch(error => {
                 dispatch(deleteIngredientFail(error));
+            });
+    };
+};
+
+export const makeIngredientPublicSuccess = (ingredientData) => {
+    return {
+        type: actionTypes.MAKE_INGREDIENT_PUBLIC_SUCCESS,
+        ingredientData: ingredientData
+    };
+};
+
+export const makeIngredientPublicFail = (error) => {
+    return {
+        type: actionTypes.MAKE_INGREDIENT_PUBLIC_FAIL,
+        error: error
+    };
+};
+
+export const makeIngredientPublicStart = () => {
+    return {
+        type: actionTypes.MAKE_INGREDIENT_PUBLIC_START
+    };
+};
+
+export const makeIngredientPublic = (ingId, token) => {
+    return dispatch => {
+        dispatch(makeIngredientPublicSuccess());
+        axios.patch('/ingredients/make-public' + ingId, {}, {headers: { 'Authorization': 'Bearer ' + token}})
+            .then(response => {
+                console.log(response);
+                dispatch(editIngredientSuccess(response.data.ingredient));
+            }).catch(error => {
+                dispatch(makeIngredientPublicFail(error));
+            });
+    };
+};
+
+export const unmakeIngredientPublicSuccess = (ingredientData) => {
+    return {
+        type: actionTypes.UNMAKE_INGREDIENT_PUBLIC_SUCCESS,
+        ingredientData: ingredientData
+    };
+};
+
+export const unmakeIngredientPublicFail = (error) => {
+    return {
+        type: actionTypes.UNMAKE_INGREDIENT_PUBLIC_FAIL,
+        error: error
+    };
+};
+
+export const unmakeIngredientPublicStart = () => {
+    return {
+        type: actionTypes.UNMAKE_INGREDIENT_PUBLIC_START
+    };
+};
+
+export const unmakeIngredientPublic = (ingId, token) => {
+    return dispatch => {
+        dispatch(unmakeIngredientPublicStart());
+        axios.patch('/ingredients/unmake-public' + ingId, {}, {headers: { 'Authorization': 'Bearer ' + token}})
+            .then(response => {
+                console.log(response);
+                dispatch(unmakeIngredientPublicSuccess(response.data.ingredient));
+            }).catch(error => {
+                dispatch(unmakeIngredientPublicFail(error));
             });
     };
 };
