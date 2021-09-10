@@ -14,6 +14,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import { Button } from '@material-ui/core';
+import PublicIcon from '@material-ui/icons/Public';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -131,7 +133,19 @@ export default function Ingredient(props) {
                                 </Table>
                             </TableContainer>
                         </Grid>
+                        <Grid item xs={12} md={7}>
+                    <Button
+                      style={{ width: "100%", marginTop:'10px' }}
+                      variant="contained"
+                      color="primary"
+                      onClick={props.unpublic}
+                      startIcon={<PublicIcon />}
+                    >
+                      REMOVE PUBLIC STATUS
+                    </Button>
                     </Grid>
+                    </Grid>
+                    
                 </AccordionDetails>
             </Accordion>
         </div>

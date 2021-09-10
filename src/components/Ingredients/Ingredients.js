@@ -37,6 +37,7 @@ const Ingredients = (props) => {
                     proteine={ingredient.nutrition.proteine}
                     category={ingredient.category.displayName}
                     measurementUnit={ingredient.measurementUnit.perName}
+                    unpublic={() => props.unmakePublic(ingredient.id)}
                 />
             </Grid>
         )

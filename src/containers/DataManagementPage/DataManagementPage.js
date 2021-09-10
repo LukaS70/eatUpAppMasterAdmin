@@ -124,9 +124,9 @@ export class AnalyticsPage extends Component {
         },
         filteredRecpies: [],
         filteredIngredients: [],
-        showPublicDialog: false,
-        ingForPublic: null,
-        recForPublic: null,
+        showPublicRecipeDialog: false,
+        showPublicIngredientDialog: false,
+        idForPublic: null,
         idForDelete: null,
         showDeleteIngredientCategoryDialog: false,
         showDeleteRecipeCategoryDialog: false,
@@ -469,6 +469,30 @@ export class AnalyticsPage extends Component {
         this.setState({ showDeleteMeasurementUnitDialog: true, idForDelete: muId });
     }
 
+    unmakeRecipePublicHandler = () => {
+        this.props.onUnmakeRecipePublic(this.state.idForPublic, this.props.token);
+        setTimeout(() => {
+            this.setState({ showPublicRecipeDialog: false, idForPublic: null });
+            this.props.onFetchRecipes(this.props.token);
+        },500);
+    }
+
+    unmakeRp = (recId) => {
+        this.setState({ showPublicRecipeDialog: true, idForPublic: recId });
+    }
+
+    unmakeIngredientPublicHandler = () => {
+        this.props.onUnmakeIngredientPublic(this.state.idForPublic, this.props.token);
+        setTimeout(() => {
+            this.setState({ showPublicIngredientDialog: false, idForPublic: null });
+            this.props.onFetchIngredients(this.props.token);
+        },500);
+    }
+
+    unmakeIp = (ingId) => {
+        this.setState({ showPublicIngredientDialog: true, idForPublic: ingId });
+    }
+
     searchRecipesHandler = (event) => {
         let value = event.target.value
 
@@ -685,6 +709,7 @@ export class AnalyticsPage extends Component {
                             />
                             <Ingredients
                                 ingredients={this.state.filteredIngredients.length === 0 ? this.props.ingredients : this.state.filteredIngredients}
+                                unmakePublic={(ingId) => this.unmakeIp(ingId)}
                             />
                         </Grid>
                         <Grid item xs={12} md={8} style={{maxHeight:'700px', overflow: 'auto', padding: '20px', backgroundColor: '#f5f5f5'}}>
@@ -698,6 +723,7 @@ export class AnalyticsPage extends Component {
                             <Recipes
                                 recipes={this.state.filteredRecpies.length === 0 ? this.props.recipes : this.state.filteredRecpies}
                                 openDetails={(recId) => this.openDetailsModal(recId)}
+                                unmakePublic={(recId) => this.unmakeRp(recId)}
                             />
                         </Grid>
                         <Grid item xs={12} md={4} style={{padding: '20px', paddingTop:'60px', backgroundColor: '#f5f5f5'}}>
@@ -781,6 +807,18 @@ export class AnalyticsPage extends Component {
                         content={'This measurement unit will be permanently deleted.'}
                         onCancel={() => { this.setState({ showDeleteMeasurementUnitDialog: false, ingIdForDelete: null  }) }}
                         onOk={this.deleteMeasurementUnitHandler} />
+                    <Dialog
+                        show={this.state.showPublicRecipeDialog}
+                        title={'Remove public status from recipe?'}
+                        content={'Recipe can become public again if a user requests a review.'}
+                        onCancel={() => { this.setState({ showPublicRecipeDialog: false, idForPublic: null  }) }}
+                        onOk={this.unmakeRecipePublicHandler} />
+                    <Dialog
+                        show={this.state.showPublicIngredientDialog}
+                        title={'Remove public status from ingredient?'}
+                        content={'Ingredient can become public again if a user requests a review.'}
+                        onCancel={() => { this.setState({ showPublicIngredientDialog: false, idForPublic: null  }) }}
+                        onOk={this.unmakeIngredientPublicHandler} />
                 </div>
             );
         }
@@ -831,6 +869,8 @@ const mapDispatchToProps = dispatch => {
         onAddMesurementUnit: (measurementUnitData, token) => dispatch(actions.addMeasurementUnits(measurementUnitData, token)),
         onEditMesurementUnit: (muId, measurementUnitData, token) => dispatch(actions.editMeasurementUnits(muId, measurementUnitData, token)),
         onDeleteMesurementUnit: (muId, token) => dispatch(actions.deleteMeasurementUnits(muId, token)),
+        onUnmakeRecipePublic: (recId, token) => dispatch(actions.unmakeRecipePublic(recId, token)),
+        onUnmakeIngredientPublic: (ingId, token) => dispatch(actions.unmakeIngredientPublic(ingId, token)),
     }
 }
 

@@ -34,6 +34,7 @@ const Recipes = (props) => {
                 instructions={recipe.instructions}
                 image={recipe.image}
                 toDetails={() => props.openDetails(recipe.id)}
+                unpublic={() => props.unmakePublic(recipe.id)}
             />
         </Grid>
     ))

@@ -156,7 +156,7 @@ export const makeRecipePublicStart = () => {
 export const makeRecipePublic = (recId, token) => {
     return dispatch => {
         dispatch(makeRecipePublicSuccess());
-        axios.patch('/recipes/make-public' + recId, {}, {headers: { 'Authorization': 'Bearer ' + token}})
+        axios.patch('/recipes/make-public/' + recId, {}, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
                 console.log(response);
                 dispatch(editRecipeSuccess(response.data.recipe));
@@ -189,7 +189,7 @@ export const unmakeRecipePublicStart = () => {
 export const unmakeRecipePublic = (recId, token) => {
     return dispatch => {
         dispatch(unmakeRecipePublicStart());
-        axios.patch('/recipes/unmake-public' + recId, {}, {headers: { 'Authorization': 'Bearer ' + token}})
+        axios.patch('/recipes/unmake-public/' + recId, {}, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
                 console.log(response);
                 dispatch(unmakeRecipePublicSuccess(response.data.recipe));

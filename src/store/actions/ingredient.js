@@ -156,7 +156,7 @@ export const makeIngredientPublicStart = () => {
 export const makeIngredientPublic = (ingId, token) => {
     return dispatch => {
         dispatch(makeIngredientPublicSuccess());
-        axios.patch('/ingredients/make-public' + ingId, {}, {headers: { 'Authorization': 'Bearer ' + token}})
+        axios.patch('/ingredients/make-public/' + ingId, {}, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
                 console.log(response);
                 dispatch(editIngredientSuccess(response.data.ingredient));
@@ -189,7 +189,7 @@ export const unmakeIngredientPublicStart = () => {
 export const unmakeIngredientPublic = (ingId, token) => {
     return dispatch => {
         dispatch(unmakeIngredientPublicStart());
-        axios.patch('/ingredients/unmake-public' + ingId, {}, {headers: { 'Authorization': 'Bearer ' + token}})
+        axios.patch('/ingredients/unmake-public/' + ingId, {}, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
                 console.log(response);
                 dispatch(unmakeIngredientPublicSuccess(response.data.ingredient));
