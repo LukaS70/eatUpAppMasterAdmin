@@ -24,7 +24,7 @@ export const fetchRecipesStart = () => {
 export const fetchRecipes = (token) => {
     return dispatch => {
         dispatch(fetchRecipesStart());
-        axios.get('/recipes', {headers: { 'Authorization': 'Bearer ' + token}})
+        axios.get('/recipes/admin', {headers: { 'Authorization': 'Bearer ' + token}})
             .then(res => {
                 const fetchedRecipes = res.data.recipes;
                 dispatch(fetchRecipesSuccess(fetchedRecipes));

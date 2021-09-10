@@ -88,7 +88,7 @@ export const editIngredientCategoriesStart = () => {
 export const editIngredientCategories = (ingredientCategoryId, ingredientCategoryData, token) => {
     return dispatch => {
         dispatch(editIngredientCategoriesStart());
-        axios.put('/ingredient-categories/' + ingredientCategoryId, ingredientCategoryData, {headers: { 'Authorization': 'Bearer ' + token}})
+        axios.patch('/ingredient-categories/' + ingredientCategoryId, ingredientCategoryData, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
                 console.log(response);
                 dispatch(editIngredientCategoriesSuccess(response.data.ingredientCategory));

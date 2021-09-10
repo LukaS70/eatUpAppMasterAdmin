@@ -297,7 +297,7 @@ export default function Appbar(props) {
                 <Tab label="Pending Reviews"  component={NavLink} {...a11yProps(1)} to="/pendingreviews" /* style={{width: 210, fontSize: 16}} *//>
                 <Tab label="Users & Analytics" component={NavLink} {...a11yProps(2)} to="/analytics" /* style={{width: 210, fontSize: 16}} *//>
                 <Button component={NavLink} to="/logout" onClick={resetValue}
-                    style={{ width: '150px', marginLeft: 'auto' }}
+                    style={{ width: '150px', marginLeft: 'auto' ,marginRight: '10px', marginBottom: '5px',  marginTop: '5px'}}
                     variant="contained"
                     startIcon={<ExitToAppIcon />}>Logout</Button>
             </Tabs>

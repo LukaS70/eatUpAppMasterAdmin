@@ -88,7 +88,7 @@ export const editMeasurementUnitsStart = () => {
 export const editMeasurementUnits = (measurementUnitId, measurementUnitData, token) => {
     return dispatch => {
         dispatch(editMeasurementUnitsStart());
-        axios.put('/measurement-units/' + measurementUnitId, measurementUnitData, {headers: { 'Authorization': 'Bearer ' + token}})
+        axios.patch('/measurement-units/' + measurementUnitId, measurementUnitData, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
                 console.log(response);
                 dispatch(editMeasurementUnitsSuccess(response.data.measurementUnit));

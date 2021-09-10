@@ -3,8 +3,8 @@ export {
     addRecipe,
     editRecipe,
     deleteRecipe,
-    /* makeRecipePublic,
-    unmakeRecipePublic */
+    makeRecipePublic,
+    unmakeRecipePublic
 } from './recipe';
 
 export {
@@ -12,8 +12,8 @@ export {
     addIngredient,
     editIngredient,
     deleteIngredient,
-   /*  makeIngredientPublic,
-    unmakeIngredientPublic */
+    makeIngredientPublic,
+    unmakeIngredientPublic
 } from './ingredient';
 
 export {
