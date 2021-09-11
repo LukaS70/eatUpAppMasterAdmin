@@ -735,8 +735,8 @@ export class AnalyticsPage extends Component {
                                 unmakePublic={(recId) => this.unmakeRp(recId)}
                             />
                         </Grid>
-                        <Grid item xs={12} md={12} style={{ padding: '10px', backgroundColor: '#f5f5f5'}}>
-                            <Divider style={{ padding: '1px', marginTop: '30px', backgroundColor: '#3f50b5'}}></Divider>
+                        <Grid item xs={12} md={12} style={{ padding: '0px', backgroundColor: '#f5f5f5'}}>
+                            <Divider style={{ padding: '1px', marginTop: '', backgroundColor: '#3f50b5'}}></Divider>
                         </Grid>
                         <Grid item xs={12} md={4} style={{padding: '20px', paddingTop:'30px', backgroundColor: '#f5f5f5'}}>
                             <IngredientCagories

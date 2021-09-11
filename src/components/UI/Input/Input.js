@@ -14,6 +14,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
+import { Autocomplete } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -139,6 +140,19 @@ const input = (props) => {
                 </Paper>
             );
             break;
+            /* case ('autocomplete'):
+                inputElement = (
+                    <Autocomplete
+                        {...props.elementConfig}
+                        options={props.options}
+                        getOptionLabel={(option) => option.firstName + ' ' + option.lastName}
+                        style={{ width: 300 }}
+                        renderInput={(params) => <TextField {...params} label="Combo box" variant="outlined" />}
+                        onChange={props.changed}
+                        value={props.value}
+    />
+                );
+                break; */
         default:
             inputElement = <TextField {...props.elementConfig} value={props.value} onChange={props.changed} />;
     }

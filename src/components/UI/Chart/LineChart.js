@@ -2,48 +2,53 @@ import React from 'react'
 import { Line } from 'react-chartjs-2'
 
 function LineChart(props) {
+    console.log(props);
     return (
         <div>
             <Line
+            style={{minHeight:'400px'}}
                 data={{
                     labels: props.labels,
                     datasets: [
                         {
-                            label: '',
+                            label: props.title,
                             data: props.data,
-                            borderColor: '#000000',
-                            backgroundColor: '#cae5c4',
-                            hoverBackgroundColor: '#cfe8ca',
-                            hoverBorderColor: 'success',
-                            pointBackgroundColor: '#438a06',
-                            pointBorderColor: 'success',
-                            borderWidth: 1
+                            borderColor: props.colors.borderColor,
+                            backgroundColor: props.colors.backgroundColor,
+                            hoverBackgroundColor: props.colors.hoverBackgroundColor,
+                            hoverBorderColor: props.colors.hoverBorderColor,
+                            pointBackgroundColor: props.colors.pointBackgroundColor,
+                            pointBorderColor: props.colors.pointBorderColor,
+                            borderWidth: props.colors.borderWidth,
+                            lineTension: props.colors.lineTension,
+                            fill: true
                         }
                     ],
                 }}
                 options={{
                     responsive: true,
-                    title: {
-                        display: true,
-                        text: props.title
-                    },
-                    pan: {
+                    /* plugins: {
+                        title: {
+                            display: true,
+                            text: props.title
+                        },
+                    }, */
+                    /* pan: {
                         enabled: true,
                         mode: 'xy'
                     },
                     zoom: {
                         enabled: true,
                         mode: 'xy'
-                    },
+                    }, */
                     scales: {
-                        yAxes: [{
+                        y: {
                             display: true,
                             ticks: {
                                 beginAtZero: true,
                                 stepSize: 500,
-                                suggestedMax: props.max + 1000
                             }
-                        }]
+                        }
                     }
                 }}
             />
