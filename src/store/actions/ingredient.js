@@ -24,7 +24,7 @@ export const fetchIngredientsStart = () => {
 export const fetchIngredients = (token) => {
     return dispatch => {
         dispatch(fetchIngredientsStart());
-        axios.get('/ingredients', {headers: { 'Authorization': 'Bearer ' + token}})
+        axios.get('/ingredients/admin/', {headers: { 'Authorization': 'Bearer ' + token}})
             .then(res => {
                 const fetchedIngredients = res.data.ingredients;
                 dispatch(fetchIngredientsSuccess(fetchedIngredients));
@@ -155,7 +155,7 @@ export const makeIngredientPublicStart = () => {
 
 export const makeIngredientPublic = (ingId, token) => {
     return dispatch => {
-        dispatch(makeIngredientPublicSuccess());
+        dispatch(makeIngredientPublicStart());
         axios.patch('/ingredients/make-public/' + ingId, {}, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
                 console.log(response);

@@ -84,6 +84,7 @@ const makeIngredientPublicStart = (state, action) => {
 };
 
 const makeIngredientPublicSuccess = (state, action) => {
+    console.log(action.ingredientData);
     const editedIngredient = action.ingredientData;
     const newIngredients = state.ingredients;
     const index = newIngredients.findIndex(ing => ing.id === editedIngredient.id);

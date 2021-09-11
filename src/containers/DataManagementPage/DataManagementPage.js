@@ -17,6 +17,7 @@ import Snackbar from '../../components/UI/Snackbar/Snackbar';
 import IngredientCagories from '../../components/IngredientCategories/IngredientCategories';
 import RecipeCagories from '../../components/RecipeCategories/RecipeCategories';
 import MeasurementUnits from '../../components/MeasurementUnits/MeasurementUnits';
+import { Divider } from '@material-ui/core';
 
 
 export class AnalyticsPage extends Component {
@@ -708,7 +709,11 @@ export class AnalyticsPage extends Component {
                                 search={this.applySearch}
                             />
                             <Ingredients
-                                ingredients={this.state.filteredIngredients.length === 0 ? this.props.ingredients : this.state.filteredIngredients}
+                                ingredients={this.state.filteredIngredients.length === 0 ? this.props.ingredients.filter(ing => {
+                                    return ing.public === true;
+                                }) : this.state.filteredIngredients.filter(ing => {
+                                    return ing.public === true;
+                                })}
                                 unmakePublic={(ingId) => this.unmakeIp(ingId)}
                             />
                         </Grid>
@@ -721,12 +726,19 @@ export class AnalyticsPage extends Component {
                                 search={this.applySearch}
                             />
                             <Recipes
-                                recipes={this.state.filteredRecpies.length === 0 ? this.props.recipes : this.state.filteredRecpies}
+                                recipes={this.state.filteredRecpies.length === 0 ? this.props.recipes.filter(rec => {
+                                    return rec.public === true;
+                                }) : this.state.filteredRecpies.filter(rec => {
+                                    return rec.public === true;
+                                })}
                                 openDetails={(recId) => this.openDetailsModal(recId)}
                                 unmakePublic={(recId) => this.unmakeRp(recId)}
                             />
                         </Grid>
-                        <Grid item xs={12} md={4} style={{padding: '20px', paddingTop:'60px', backgroundColor: '#f5f5f5'}}>
+                        <Grid item xs={12} md={12} style={{ padding: '10px', backgroundColor: '#f5f5f5'}}>
+                            <Divider style={{ padding: '1px', marginTop: '30px', backgroundColor: '#3f50b5'}}></Divider>
+                        </Grid>
+                        <Grid item xs={12} md={4} style={{padding: '20px', paddingTop:'30px', backgroundColor: '#f5f5f5'}}>
                             <IngredientCagories
                                 ingredientCategories={this.props.ingredientCategories}
                                 add={() => this.openCategoryModal('ingredient')}
@@ -734,7 +746,7 @@ export class AnalyticsPage extends Component {
                                 delete={(icId) => this.deleteIc(icId, 'ingredient')}
                             />
                         </Grid>
-                        <Grid item xs={12} md={4} style={{padding: '20px', paddingTop:'60px', backgroundColor: '#f5f5f5'}}>
+                        <Grid item xs={12} md={4} style={{padding: '20px', paddingTop:'30px', backgroundColor: '#f5f5f5'}}>
                             <MeasurementUnits
                                 measurementUnits={this.props.measurementUnits}
                                 add={this.openMeasurementUnitModal}
@@ -742,7 +754,7 @@ export class AnalyticsPage extends Component {
                                 delete={(muId) => this.deleteMu(muId)}
                             />
                         </Grid>
-                        <Grid item xs={12} md={4} style={{padding: '20px', paddingTop:'60px', backgroundColor: '#f5f5f5'}}>
+                        <Grid item xs={12} md={4} style={{padding: '20px', paddingTop:'30px', backgroundColor: '#f5f5f5'}}>
                             <RecipeCagories
                                 recipeCategories={this.props.recipeCategories}
                                 add={() => this.openCategoryModal('recipe')}

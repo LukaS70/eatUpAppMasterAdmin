@@ -20,7 +20,7 @@ export default function NutritionSummary(props) {
     const classes = useStyles();
 
     return (
-        <div style={{ padding: '15px' }}>
+        <div style={{ padding: '5px' }}>
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                     <TableHead>

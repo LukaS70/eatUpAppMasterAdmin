@@ -155,7 +155,7 @@ export const makeRecipePublicStart = () => {
 
 export const makeRecipePublic = (recId, token) => {
     return dispatch => {
-        dispatch(makeRecipePublicSuccess());
+        dispatch(makeRecipePublicStart());
         axios.patch('/recipes/make-public/' + recId, {}, {headers: { 'Authorization': 'Bearer ' + token}})
             .then(response => {
                 console.log(response);
